@@ -1,0 +1,23 @@
+{
+  "name": "node-postgres-cred",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/rat9615/node-postgres-cred.git",
+  "author": "Rohan R <rohanrathan21@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.23.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "nodemon": "^2.0.7",
+    "prettier": "^2.2.1"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.5.1"
+  }
+}
