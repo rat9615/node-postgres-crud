@@ -3,6 +3,12 @@ const express = require('express');
 const app = express();
 
 require('dotenv').config();
+const sequelize = require('./config/database');
+
+sequelize
+    .authenticate()
+    .then(() => console.log(`Connected successfully.`))
+    .catch((err) => console.log(err));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
