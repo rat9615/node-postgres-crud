@@ -13,15 +13,25 @@ router.get('/users', async (req, res) => {
         });
 });
 
-// router.post('/users', (req, res) => {
-//     const { name, age } = req.body;
-//     const query = `INSERT INTO users(name,age) VALUES($1,$2)`;
+router.post('/users', async (req, res) => {
+    const { name, age } = req.body;
+    // const query = `INSERT INTO users(name,age) VALUES($1,$2)`;
 
-//     client.query(query, [name, age], (err) => {
-//         if (err) res.json(`Error: ${err}`);
-//         else res.send(`User added: ${name}`);
-//     });
-// });
+    // client.query(query, [name, age], (err) => {
+    //     if (err) res.json(`Error: ${err}`);
+    //     else res.send(`User added: ${name}`);
+    // });
+
+    await User.create({
+        name,
+        age,
+    })
+        .then((results) => res.status(200).json(results))
+        .catch((err) => {
+            console.log(err);
+            res.send('Insertion unsuccessful');
+        });
+});
 
 // router.put('/users/:id', (req, res) => {
 //     const { name, age } = req.body;
