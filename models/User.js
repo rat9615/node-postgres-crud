@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 const database = require('../config/database');
 
 module.exports = database.define(
-    'users',
+    'user',
     {
         name: {
             type: DataTypes.STRING,
@@ -13,7 +13,5 @@ module.exports = database.define(
             allowNull: false,
         },
     },
-    {
-        freezeTableName: true,
-    },
+    {},
 );
