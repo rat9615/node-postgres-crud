@@ -15,13 +15,7 @@ router.get('/users', async (req, res) => {
 
 router.post('/users', async (req, res) => {
     const { name, age } = req.body;
-    // const query = `INSERT INTO users(name,age) VALUES($1,$2)`;
-
-    // client.query(query, [name, age], (err) => {
-    //     if (err) res.json(`Error: ${err}`);
-    //     else res.send(`User added: ${name}`);
-    // });
-
+    await User.sync();
     await User.create({
         name,
         age,
@@ -33,16 +27,26 @@ router.post('/users', async (req, res) => {
         });
 });
 
-// router.put('/users/:id', (req, res) => {
-//     const { name, age } = req.body;
-//     const { id } = req.params;
-//     const query = `UPDATE users SET name = $1, age = $2 WHERE ID = $3;`;
-
-//     client.query(query, [name, age, id], (err) => {
-//         if (err) res.json(`Error ${err}`);
-//         else res.send(`User updated: ${id}`);
-//     });
-// });
+router.put('/users/:id', async (req, res) => {
+    const { name, age } = req.body;
+    const { id } = req.params;
+    await User.update(
+        {
+            name,
+            age,
+        },
+        {
+            where: {
+                id,
+            },
+        },
+    )
+        .then(() => res.status(200).send(`User updated ${id}`))
+        .catch((err) => {
+            console.log(err);
+            res.send(`User not updated!`);
+        });
+});
 
 // router.delete('/users/:id', (req, res) => {
 //     const { id } = req.params;
