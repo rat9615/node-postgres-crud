@@ -9,7 +9,7 @@ app.use(express.json());
 
 app.use('/api', require('./routes/index'));
 
-app.get('/', (req, res) => res.send(`Routes at /api`));
+app.get('/', (req, res) => res.send(`Routes at /api/users`));
 
 app.use((req, res) => res.status(404).send(`404! Not Found!`));
 
