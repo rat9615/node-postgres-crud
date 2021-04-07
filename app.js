@@ -3,8 +3,7 @@ const express = require('express');
 const app = express();
 
 require('dotenv').config();
-
-// app.use('/api', require('./routes/index'));
+app.use('/api', require('./routes/index'));
 
 app.get('/', (req, res) => res.send(`Routes at /api`));
 
