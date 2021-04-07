@@ -48,14 +48,18 @@ router.put('/users/:id', async (req, res) => {
         });
 });
 
-// router.delete('/users/:id', (req, res) => {
-//     const { id } = req.params;
-//     const query = `DELETE FROM users WHERE ID = $1;`;
-
-//     client.query(query, [id], (err) => {
-//         if (err) res.json(`Error: ${err}`);
-//         else res.send(`User deleted: ${id}`);
-//     });
-// });
+router.delete('/users/:id', async (req, res) => {
+    const { id } = req.params;
+    await User.destroy({
+        where: {
+            id,
+        },
+    })
+        .then(() => res.status(200).send(`User deleted ${id}`))
+        .catch((err) => {
+            console.log(err);
+            res.send(`Something went wrong!`);
+        });
+});
 
 module.exports = router;
