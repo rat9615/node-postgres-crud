@@ -22,9 +22,20 @@ router.post('/users', (req, res) => {
     const { name, age } = req.body;
     const query = `INSERT INTO users(name,age) VALUES($1,$2)`;
 
-    client.query(query, [name, age], (err, results) => {
+    client.query(query, [name, age], (err) => {
         if (err) res.json(`Error: ${err}`);
         else res.send(`User added: ${name}`);
+    });
+});
+
+router.put('/users/:id', (req, res) => {
+    const { name, age } = req.body;
+    const { id } = req.params;
+    const query = `UPDATE users SET name = $1, age = $2 WHERE ID = $3;`;
+
+    client.query(query, [name, age, id], (err) => {
+        if (err) res.json(`Error ${err}`);
+        else res.send(`User updated: ${id}`);
     });
 });
 
