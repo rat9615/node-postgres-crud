@@ -18,4 +18,14 @@ router.get('/users', (req, res) => {
     });
 });
 
+router.post('/users', (req, res) => {
+    const { name, age } = req.body;
+    const query = `INSERT INTO users(name,age) VALUES($1,$2)`;
+
+    client.query(query, [name, age], (err, results) => {
+        if (err) res.json(`Error: ${err}`);
+        else res.send(`User added: ${name}`);
+    });
+});
+
 module.exports = router;
