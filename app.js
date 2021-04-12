@@ -2,12 +2,27 @@ const express = require('express');
 
 const app = express();
 
-const sequelize = require('./config/database');
+const Umzug = require('umzug');
+const db = require('./config/database');
 
-sequelize
-    .authenticate()
-    .then(() => console.log(`Connected successfully.`))
-    .catch((err) => console.log(err));
+const umzug = new Umzug({
+    migrations: {
+        params: [db.sequelize.getQueryInterface(), db.Sequelize],
+        path: './migrations'
+    },
+    storage: 'sequelize',
+    storageOptions: {
+        sequelize: db.sequelize
+    },
+    logger: console
+});
+
+(async () => {
+    await umzug
+        .up()
+        .then(() => console.log('Migrations completed!'))
+        .catch((err) => console.log(`Migrations unsuccessful! - ${err}`));
+})();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
