@@ -18,8 +18,8 @@ router.post('/users', async (req, res) => {
         name,
         age
     })
-        .then((results) => {
-            results.createInfo({
+        .then(async (results) => {
+            await results.createInfo({
                 city,
                 mobile
             });

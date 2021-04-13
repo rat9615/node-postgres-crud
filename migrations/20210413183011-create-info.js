@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = {
     up: async (queryInterface, Sequelize) => {
         /**
@@ -9,15 +7,21 @@ module.exports = {
          * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
          */
         await queryInterface.createTable('Info', {
+            id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: Sequelize.INTEGER
+            },
             city: {
                 type: Sequelize.STRING,
                 allowNull: false
             },
             mobile: {
-                type: Sequelize.INTEGER,
+                type: Sequelize.BIGINT(10),
                 allowNull: false
             },
-            id: {
+            UserId: {
                 type: Sequelize.INTEGER,
                 references: {
                     model: {
@@ -25,7 +29,8 @@ module.exports = {
                     },
                     key: 'id'
                 },
-                allowNull: false
+                allowNull: false,
+                onDelete: 'CASCADE'
             }
         });
     },
