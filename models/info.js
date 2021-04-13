@@ -9,10 +9,7 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            Info.belongsTo(models.User, {
-                foreignKey: 'id',
-                onDelete: 'cascade'
-            });
+            Info.belongsTo(models.User);
         }
     }
     Info.init(
@@ -22,14 +19,15 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: false
             },
             mobile: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.BIGINT(10),
                 allowNull: false
             }
         },
         {
             sequelize,
             modelName: 'Info',
-            tableName: 'Info'
+            tableName: 'Info',
+            timestamps: false
         }
     );
     return Info;

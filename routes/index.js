@@ -1,10 +1,9 @@
 const express = require('express');
 
 const router = express.Router();
-const User = require('../models/user');
+const { User } = require('../models');
 
 router.get('/users', async (req, res) => {
-    await User.sync();
     await User.findAll()
         .then((results) => res.status(200).json(results))
         .catch((err) => {
@@ -14,13 +13,18 @@ router.get('/users', async (req, res) => {
 });
 
 router.post('/users', async (req, res) => {
-    const { name, age } = req.body;
-    await User.sync();
+    const { name, age, city, mobile } = req.body;
     await User.create({
         name,
         age
     })
-        .then((results) => res.status(200).json(results))
+        .then((results) => {
+            results.createInfo({
+                city,
+                mobile
+            });
+            res.status(200).json(results);
+        })
         .catch((err) => {
             console.log(err);
             res.send('Insertion unsuccessful');

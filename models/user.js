@@ -9,6 +9,13 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            User.hasOne(models.Info, {
+                foreignKey: {
+                    type: DataTypes.INTEGER,
+                    allowNull: false
+                },
+                onDelete: 'CASCADE'
+            });
         }
     }
     User.init(
@@ -25,7 +32,8 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: 'User',
-            tableName: 'User'
+            tableName: 'User',
+            timestamps: false
         }
     );
     return User;
