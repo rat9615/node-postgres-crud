@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const User = require('../models/User');
+const User = require('../models/user');
 
 router.get('/users', async (req, res) => {
     await User.sync();
@@ -18,7 +18,7 @@ router.post('/users', async (req, res) => {
     await User.sync();
     await User.create({
         name,
-        age,
+        age
     })
         .then((results) => res.status(200).json(results))
         .catch((err) => {
@@ -33,13 +33,13 @@ router.put('/users/:id', async (req, res) => {
     await User.update(
         {
             name,
-            age,
+            age
         },
         {
             where: {
-                id,
-            },
-        },
+                id
+            }
+        }
     )
         .then(() => res.status(200).send(`User updated ${id}`))
         .catch((err) => {
@@ -52,8 +52,8 @@ router.delete('/users/:id', async (req, res) => {
     const { id } = req.params;
     await User.destroy({
         where: {
-            id,
-        },
+            id
+        }
     })
         .then(() => res.status(200).send(`User deleted ${id}`))
         .catch((err) => {

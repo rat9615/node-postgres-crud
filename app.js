@@ -3,12 +3,14 @@ const express = require('express');
 const app = express();
 
 const Umzug = require('umzug');
-const db = require('./config/database');
+const path = require('path');
+const { Sequelize } = require('sequelize');
+const db = require('./models');
 
 const umzug = new Umzug({
     migrations: {
-        params: [db.sequelize.getQueryInterface(), db.Sequelize],
-        path: './migrations'
+        path: path.join(__dirname, './migrations'),
+        params: [db.sequelize.getQueryInterface(), Sequelize]
     },
     storage: 'sequelize',
     storageOptions: {
