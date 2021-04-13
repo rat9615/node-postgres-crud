@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { User } = require('../models');
+const { User, Product } = require('../models');
 
 router.get('/users', async (req, res) => {
     await User.findAll()
@@ -23,6 +23,22 @@ router.post('/users', async (req, res) => {
                 city,
                 mobile
             });
+            res.status(200).json(results);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.send('Insertion unsuccessful');
+        });
+});
+
+router.post('/products', async (req, res) => {
+    const { productName, price, UserId } = req.body;
+    await Product.create({
+        productName,
+        price,
+        UserId
+    })
+        .then(async (results) => {
             res.status(200).json(results);
         })
         .catch((err) => {
