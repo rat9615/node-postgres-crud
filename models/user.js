@@ -12,7 +12,8 @@ module.exports = (sequelize, DataTypes) => {
             User.hasOne(models.Info, {
                 foreignKey: {
                     type: DataTypes.INTEGER,
-                    allowNull: false
+                    allowNull: false,
+                    unique: true
                 },
                 onDelete: 'CASCADE'
             });
@@ -23,6 +24,13 @@ module.exports = (sequelize, DataTypes) => {
                     allowNull: false
                 },
                 onDelete: 'CASCADE'
+            });
+
+            User.belongsToMany(models.Role, {
+                through: 'UserRoles',
+                foreignKey: 'user_id',
+                otherKey: 'role_id',
+                allowNull: false
             });
         }
     }
