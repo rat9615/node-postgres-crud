@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const { User, Product } = require('../models');
+const { User, Product, Role } = require('../models');
 
 router.get('/users', async (req, res) => {
     await User.findAll()
@@ -38,12 +38,73 @@ router.post('/products', async (req, res) => {
         price,
         UserId
     })
-        .then(async (results) => {
+        .then((results) => {
             res.status(200).json(results);
         })
         .catch((err) => {
             console.log(err);
             res.send('Insertion unsuccessful');
+        });
+});
+
+router.post('/roles', async (req, res) => {
+    const { roleName } = req.body;
+    await Role.create({
+        roleName
+    })
+        .then((results) => {
+            res.status(200).json(results);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.send('Roles Added');
+        });
+});
+
+router.post('/roles/:id/:roleId', async (req, res) => {
+    const { id, roleId } = req.params;
+
+    const user = await User.findOne({
+        where: {
+            id
+        }
+    });
+
+    const role = await Role.findOne({ where: { roleId } });
+
+    user.addRole(role)
+        .then(() => res.status(200).send(`User role added`))
+        .catch((err) => {
+            console.log(err);
+            res.send(`User role not added!`);
+        });
+});
+
+router.get('/userroles/:id', async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id } });
+
+    await user
+        .getRoles()
+        .then((results) => res.status(200).json(results))
+        .catch((err) => {
+            console.log(`Error ${err}`);
+            res.send(`Something went wrong!`);
+        });
+});
+
+router.get('/userrolesop/:roleId', async (req, res) => {
+    const { roleId } = req.params;
+
+    const role = await Role.findOne({ where: { roleId } });
+
+    await role
+        .getUsers()
+        .then((results) => res.status(200).json(results))
+        .catch((err) => {
+            console.log(`Error ${err}`);
+            res.send(`Something went wrong!`);
         });
 });
 
